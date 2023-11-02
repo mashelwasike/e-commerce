@@ -1,0 +1,55 @@
+{% extends 'store/layouts/main.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="py-3 bg-secondary">
+        <div class="container">
+            <a class="text-white" href="{% url 'home' %}">Home/</a>
+            <a class="text-white" href="{% url 'collection' %}">collection/</a>
+            <a class="text-white" href="{% url 'collectionview' category.slug %}">{{category.name}}/</a>
+            
+        </div>    
+    </div>
+    <hr>
+<div class="container cont">
+<div class="row">   
+    {% for item in products %}
+    <div class="col-md-3 prod_itm">
+        <div class="card product_data border border-0">
+            <div class="card-body">
+                <a href="{% url 'productview' item.category.slug item.slug %}">
+                <div class="category-image">
+                    <img class="w-100" src="{{item.image.url}}" alt="">
+                </div> 
+                <hr>
+                <h6>{{ item.name }}</h6>
+            </a>
+            <h6>{{ item.price }}</h6>
+            <div class="row">
+                <div class="col-md-6" style="font-size: 10px;">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ item.id }}" class="prod_id">
+                    <div class="input-group text-center">
+                        <button class="input-group-text decrement-btn" style="font-size: 12px; background-color: orange;"><strong>-</strong></button>
+                        <input type="text" name="quantity" style="font-size: 12px;" class="form-control qty-input text-center" value="1">
+                        <button class="input-group-text increment-btn" style="font-size: 12px; background-color: orange;"><strong>+</strong></button>
+                    </div>
+                </div> 
+                <div class="col-md-6 p-0">
+                    <span>
+                        {% if item.quantity > 0 %}
+                            <button type="button" class="btn btn-success me-3 addToCart" style="font-size: 12px;">Add to cart<i class="fa fa-shopping-cart"></i></button>
+                        {% else %}
+                            <button type="button" class="btn btn-danger me-3 disabled" style="font-size: 12px;">Out of Stock</button>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>  
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}

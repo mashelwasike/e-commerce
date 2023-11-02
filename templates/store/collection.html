@@ -1,0 +1,33 @@
+{% extends 'store/layouts/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>collection</h1>
+<div class="row">
+    <h1></h1>
+    <hr>
+    <div style="height: 30px; background-color: black; color: white;" >
+        {{category_name.name}}
+    </div>
+    <br>
+    {% for item in category %}
+    <div class="col-md-2 my-2 prod_itm">
+        <div class="coll w-100">
+            <a href="{% url 'collectionview' item.slug %}">
+            <div class="card-body">
+                <div class="category-image">
+                    <img class="w-100 img-main" src="{{item.imageURL}}" alt="">
+                </div>
+                <hr>
+                <p class="mt-0">{{ item.name }}</p>
+            </div>
+        </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}
+    

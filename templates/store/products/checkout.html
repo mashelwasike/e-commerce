@@ -1,0 +1,92 @@
+{% extends 'store/layouts/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="py-3 bg-primary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}">Home/</a>
+        <a class="text-white" href="{% url 'checkout' %}">order/</a>
+    </div>    
+</div>
+<hr>
+<div class="container mt-3">
+    <form action="{% url 'placeorder' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h6>User Details</h6>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" value="{{ request.user.first_name }}" required class="form-control" name="fname" placeholder="First Name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{ request.user.last_name }}" required class="form-control" name="lname" placeholder="Last Name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{ request.user.last_name }}" required class="form-control mt-3" name="email" placeholder="Email">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{ userprofile.phoneno }}" required class="form-control mt-3" name="phoneno" placeholder="Phone number">
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" value="{{ userprofile.address }}" required class="form-control mt-3" name="address" placeholder="Address">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{ userprofile.city}}" required class="form-control mt-3" name="city" placeholder="City">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{ userprofile.county }}" required class="form-control mt-3" name="county" placeholder="County">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" value="{{ userprofile.street }}" required class="form-control mt-3" name="street" placeholder="Street">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h6>Order Sammary</h6>
+                    <hr>
+                    {% if cartitems %}
+                        <table class="table table-striped">
+                           <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                           </thead>
+                           <tbody>
+                            {% for item in cartitems %}
+                                <tr>
+                                    <td><img src="{{ item.product.image.url }}" height="50px" width="50px" alt=""></td>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.product_qty }}</td>
+                                    <td>{{ item.product.price }}</td>
+                                </tr>
+                            {% endfor %}
+                           </tbody>
+                        </table>
+                        <h6>Total :
+                        <span class="float-end">Ksh {{ total_price }}</span>                      
+                        </h6>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-success w-100">Place Order</button>
+                        </div>    
+                    {% else %}
+
+                    {% endif %}
+                </div>
+            </div>  
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}
+    
