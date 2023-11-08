@@ -7,7 +7,7 @@ from django.http import JsonResponse
 def home(request):
     trending_products = Product.objects.filter(trending = 1)
     context = {'trending':trending_products}
-    return render(request, 'store/index.html',context)
+    return render(request,'store/index.html',context)
 
 def collection(request):
     category = Category.objects.filter(status = 0)
